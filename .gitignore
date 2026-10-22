@@ -1,0 +1,33 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ===== 后端虚拟环境 =====
+venv/
+backend/venv/
+.env/
+.venv/
+
+# ===== 前端依赖与构建 =====
+node_modules/
+dist/
+frontend/dist/
+
+# ===== IDE =====
+.idea/
+.vscode/
+
+# ===== 环境变量与密钥（含数据库密码，禁止提交）=====
+.env
+*.local
+
+# ===== 上传文件与日志 =====
+uploads/
+backend/uploads/
+*.log
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db
