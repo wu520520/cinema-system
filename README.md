@@ -89,12 +89,31 @@ mysql -u root -p < backend/database/init.sql
 
 ### 2.2 数据库配置
 
-修改 `backend/app/config.py` 或后端根目录下的 `.env` 中的数据库连接信息：
+数据库等配置统一由 `backend/.env` 提供（读取逻辑见 `backend/app/config.py`，基于 `pydantic-settings`），真实密码不会进入仓库。
 
-```python
-# 默认配置（推荐使用 .env 方式，不提交真实密码）
-DATABASE_URL = "mysql+pymysql://root:你的密码@localhost:3306/cinema_system"
+**第一步：复制配置模板**
+
+```bash
+cd backend
+cp .env.example .env
 ```
+
+**第二步：编辑 `.env`，填入你自己的连接信息**
+
+```ini
+DATABASE_URL=mysql+pymysql://root:你的MySQL密码@localhost:3306/cinema_system
+```
+
+**可配置项说明**（完整示例见 `backend/.env.example`）：
+
+| 变量 | 是否必填 | 说明 |
+|------|---------|------|
+| `DATABASE_URL` | 必填 | MySQL 连接串，格式 `mysql+pymysql://用户:密码@主机:端口/库名` |
+| `UPLOAD_DIR` | 可选 | 上传目录，默认 `uploads` |
+| `MAX_UPLOAD_SIZE` | 可选 | 单文件大小上限（字节），默认 10MB |
+| `CORS_ORIGINS` | 可选 | 允许访问的前端来源，JSON 数组格式 |
+
+> `.env` 已写入 `.gitignore`，不会被提交；仓库中只保留不含真实密码的 `.env.example`。
 
 ### 2.3 初始数据
 
@@ -113,8 +132,8 @@ DATABASE_URL = "mysql+pymysql://root:你的密码@localhost:3306/cinema_system"
 ### 3.1 启动后端服务
 
 ```powershell
-# 进入后端目录
-cd "g:\人工智能\P2\cinema system\backend"
+# 在项目根目录（仓库根目录）下执行
+cd backend
 
 # 激活虚拟环境
 .\venv\Scripts\Activate.ps1
@@ -137,8 +156,8 @@ python add_test_data.py
 打开新的 PowerShell 窗口：
 
 ```powershell
-# 进入前端目录
-cd "g:\人工智能\P2\cinema system\frontend"
+# 在项目根目录下执行
+cd frontend
 
 # 安装依赖（首次运行）
 npm install
@@ -179,14 +198,14 @@ npm run serve
 
 **上传后端代码到虚拟机1：**
 ```bash
-# 在 Windows PowerShell 中执行
-scp -r "g:\人工智能\P2\cinema system\backend" ubuntu@<虚拟机1的IP>:/home/ubuntu/cinema/
+# 在项目根目录的 Windows PowerShell 中执行
+scp -r backend ubuntu@<虚拟机1的IP>:/home/ubuntu/cinema/
 ```
 
 **上传前端代码到虚拟机2：**
 ```bash
-# 在 Windows PowerShell 中执行
-scp -r "g:\人工智能\P2\cinema system\frontend" ubuntu@<虚拟机2的IP>:/home/ubuntu/cinema/
+# 在项目根目录的 Windows PowerShell 中执行
+scp -r frontend ubuntu@<虚拟机2的IP>:/home/ubuntu/cinema/
 ```
 
 #### 方式2：使用 Git（如果已上传到仓库）
